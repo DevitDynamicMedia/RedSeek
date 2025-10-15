@@ -268,14 +268,14 @@
             align-items: center;
             gap: 2.5rem;
         }
-        /* For Photography (service 5) */
+      /* For Photography (service 5) */
 .service-card:nth-child(5) .service-image img {
     object-fit: cover;
     object-position: bottom;
 }
 
 /* For Videography (service 6) */
-.service-card:nth-child(5) .service-image img {
+.service-card:nth-child(6) .service-image img { /* ← Changed to 6 */
     object-fit: cover;
     object-position: bottom;
 }
@@ -413,16 +413,15 @@
             margin-top: 3rem;
         }
 
-       .stat-item {
+     .stat-item {
     text-align: center;
     padding: 2rem;
     background-color: var(--gray-dark);
     border-radius: 10px;
-    transition: transform 0.3s ease;
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.6s ease;
-    min-height: 120px; /* Fixed height to prevent layout shift */
+    transition: all 0.6s ease; /* ← Only one transition property */
+    min-height: 120px;
     display: flex;
     flex-direction: column;
     justify-content: center;
