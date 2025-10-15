@@ -331,8 +331,28 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(229, 9, 20, 0.2);
         }
+      /* FIX FOR EQUAL SERVICE SIZES */
+.service-content {
+    align-items: stretch !important;
+}
 
-        .service-image::before {
+.service-text {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+}
+
+.service-image {
+    min-height: 300px !important;
+}
+
+.service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}  
+
             
 
         /* About Section */
@@ -720,15 +740,6 @@
     align-items: stretch !important;
 }
 
-.service-text {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-}
-
-.service-image {
-    min-height: 300px !important;
-}
         }
     </style>
 </head>
