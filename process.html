@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Process - Dynamic Media</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-black: #000000;
+            --primary-white: #FFFFFF;
+            --primary-red: #E50914;
+            --secondary-red: #FF0000;
+            --gray-dark: #1A1A1A;
+            --gray-medium: #333333;
+            --gray-light: #666666;
+            --font-main: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--primary-black);
+            color: var(--primary-white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-white);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--primary-white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-red);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(229, 9, 20, 0.1), rgba(0, 0, 0, 0.9));
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Process Section */
+        .process-section {
+            padding: 100px 5%;
+            background: var(--primary-black);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-red);
+        }
+
+        /* Process Timeline */
+        .process-timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 5rem auto;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50px;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary-red), var(--secondary-red), var(--primary-red));
+            transform: translateX(-50%);
+        }
+
+        .process-step {
+            display: flex;
+            margin: 4rem 0;
+            position: relative;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .process-step.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .step-number {
+            position: absolute;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-white);
+            box-shadow: 0 5px 20px rgba(229, 9, 20, 0.4);
+            z-index: 2;
+            transition: all 0.4s ease;
+        }
+
+        .step-content {
+            flex: 1;
+            margin-left: 120px;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 15px;
+            border: 1px solid rgba(229, 9, 20, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(229, 9, 20, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .step-content:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-red);
+            box-shadow: 0 15px 40px rgba(229, 9, 20, 0.2);
+        }
+
+        .step-content:hover::before {
+            left: 100%;
+        }
+
+        .step-content:hover .step-number {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(229, 9, 20, 0.6);
+        }
+
+        .step-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-white);
+            position: relative;
+        }
+
+        .step-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--primary-red);
+        }
+
+        .step-description {
+            color: var(--gray-light);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .step-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .step-features li {
+            padding: 0.7rem 0;
+            color: var(--gray-light);
+            position: relative;
+            padding-left: 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .step-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-red);
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .step-features li:hover {
+            color: var(--primary-white);
+        }
+
+        .step-features li:hover::before {
+            transform: scale(1.2);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 100px 5%;
+            background: var(--gray-dark);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(229, 9, 20, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .stat-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-red);
+            box-shadow: 0 20px 40px rgba(229, 9, 20, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--primary-white);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 5%;
+            text-align: center;
+            background: var(--primary-black);
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .cta-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-white);
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            color: var(--gray-light);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            background: var(--primary-red);
+            color: var(--primary-white);
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+        }
+
+        .cta-button:hover {
+            background: var(--secondary-red);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(229, 9, 20, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--gray-dark);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .footer-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo span {
+            color: var(--primary-red);
+        }
+
+        .copyright {
+            color: var(--gray-light);
+            margin-bottom: 2rem;
+        }
+
+        .back-to-top {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-red);
+            color: var(--primary-white);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--secondary-red);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .process-timeline::before {
+                left: 40px;
+            }
+            
+            .step-number {
+                width: 80px;
+                height: 80px;
+                font-size: 1.5rem;
+            }
+            
+            .step-content {
+                margin-left: 100px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .process-timeline::before {
+                left: 30px;
+            }
+            
+            .step-number {
+                width: 60px;
+                height: 60px;
+                font-size: 1.2rem;
+            }
+            
+            .step-content {
+                margin-left: 80px;
+                padding: 2rem;
+            }
+            
+            .step-title {
+                font-size: 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .step-content {
+                margin-left: 70px;
+                padding: 1.5rem;
+            }
+            
+            .step-number {
+                width: 50px;
+                height: 50px;
+                font-size: 1rem;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header id="header">
+        <a href="index.html" class="logo">Dynamic<span>Media</span></a>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#services">Services</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="process.html">Process</a>
+            <a href="index.html#contact">Contact</a>
+        </nav>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Our Proven Process</h1>
+        <p>Discover how we transform businesses through our carefully crafted 6-step success process designed to maximize your online visibility</p>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section" id="process">
+        <h2 class="section-title">Our 6-Step Success Process</h2>
+        
+        <div class="process-timeline">
+            <!-- Step 1 -->
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3 class="step-title">Discovery & Strategy Session</h3>
+                    <p class="step-description">
+                        We begin with an in-depth analysis of your business, target audience, and competitive landscape. 
+                        This crucial phase helps us understand your unique needs and craft a tailored digital strategy.
+                    </p>
+                    <ul class="step-features">
+                        <li>Comprehensive business analysis</li>
+                        <li>Target audience identification</li>
+                        <li>Competitive market research</li>
+                        <li>Goal setting and KPI establishment</li>
+                        <li>Custom strategy development</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3 class="step-title">Brand Development & Identity</h3>
+                    <p class="step-description">
+                        We create a powerful brand identity that resonates with your audience and differentiates you 
+                        from competitors. Your brand becomes the foundation for all marketing efforts.
+                    </p>
+                    <ul class="step-features">
+                        <li>Logo and visual identity design</li>
+                        <li>Brand messaging and voice development</li>
+                        <li>Color palette and typography selection</li>
+                        <li>Brand guidelines creation</li>
+                        <li>Marketing collateral design</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3 class="step-title">Content Creation & Asset Development</h3>
+                    <p class="step-description">
+                        We produce high-quality, engaging content that tells your story and connects with your audience. 
+                        From photography to video and written content, we create assets that convert.
+                    </p>
+                    <ul class="step-features">
+                        <li>Professional photography sessions</li>
+                        <li>Video production and editing</li>
+                        <li>Content writing and copywriting</li>
+                        <li>Social media content creation</li>
+                        <li>Website content development</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3 class="step-title">Digital Platform Implementation</h3>
+                    <p class="step-description">
+                        We build and optimize your digital presence across all relevant platforms. Your website and 
+                        social media channels become powerful tools for engagement and conversion.
+                    </p>
+                    <ul class="step-features">
+                        <li>Website design and development</li>
+                        <li>Social media channel setup</li>
+                        <li>SEO optimization implementation</li>
+                        <li>Email marketing system setup</li>
+                        <li>Analytics and tracking installation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="process-step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3 class="step-title">Campaign Launch & Management</h3>
+                    <p class="step-description">
+                        We execute strategic marketing campaigns across multiple channels to drive visibility, 
+                        engagement, and conversions. Continuous monitoring ensures optimal performance.
+                    </p>
+                    <ul class="step-features">
+                        <li>Social media advertising campaigns</li>
+                        <li>Google Ads and PPC management</li>
+                        <li>Content distribution strategy</li>
+                        <li>Community engagement management</li>
+                        <li>Performance monitoring and reporting</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="process-step">
+                <div class="step-number">6</div>
+                <div class="step-content">
+                    <h3 class="step-title">Optimization & Growth Strategy</h3>
+                    <p class="step-description">
+                        We continuously analyze performance data and optimize strategies for maximum ROI. 
+                        Our ongoing partnership ensures your business keeps growing and adapting to market changes.
+                    </p>
+                    <ul class="step-features">
+                        <li>Performance analytics and reporting</li>
+                        <li>Strategy refinement based on data</li>
+                        <li>A/B testing and optimization</li>
+                        <li>Competitive analysis updates</li>
+                        <li>Long-term growth planning</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <h2 class="section-title">Our Process in Numbers</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number" data-count="98">0</span>
+                <span class="stat-label">Client Satisfaction Rate</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" data-count="200">0</span>
+                <span class="stat-label">Happy Clients</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" data-count="500">0</span>
+                <span class="stat-label">Projects Completed</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" data-count="8">0</span>
+                <span class="stat-label">Years Experience</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Transform Your Business?</h2>
+            <p class="cta-description">
+                Let's discuss how our proven process can drive results for your business. 
+                Schedule a free consultation today and take the first step toward digital excellence.
+            </p>
+            <button class="cta-button">Start Your Journey</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Dynamic<span>Media</span></div>
+            <p class="copyright">© 2023 Dynamic Media. All Rights Reserved.</p>
+            <a href="#" class="back-to-top">Back to Top</a>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll animations
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.section-title, .process-step, .stat-card, .cta-content, .footer-content');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        };
+
+        // Initial check on load
+        window.addEventListener('load', animateOnScroll);
+        // Check on scroll
+        window.addEventListener('scroll', animateOnScroll);
+
+        // Animated Counter for Stats
+        const statNumbers = document.querySelectorAll('.stat-number');
+        
+        const animateValue = (obj, start, end, duration) => {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        };
+
+        // Intersection Observer for stats animation
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumber = entry.target;
+                    const target = parseInt(statNumber.getAttribute('data-count'));
+                    animateValue(statNumber, 0, target, 2000);
+                    statsObserver.unobserve(statNumber);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statNumbers.forEach(stat => {
+            statsObserver.observe(stat);
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // CTA button click
+        document.querySelector('.cta-button').addEventListener('click', function() {
+            alert('Thank you for your interest! We will contact you soon to schedule your consultation.');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (window.innerWidth <= 768) {
+                        navLinks.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
