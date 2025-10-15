@@ -411,16 +411,31 @@
             margin-top: 3rem;
         }
 
-        .stat-item {
-            text-align: center;
-            padding: 2rem;
-            background-color: var(--gray-dark);
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
+       .stat-item {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--gray-dark);
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+    min-height: 120px; /* Fixed height to prevent layout shift */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-red);
+    margin-bottom: 0.5rem;
+    min-height: 60px; /* Fixed height for numbers */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
         .stat-item.visible {
             opacity: 1;
@@ -429,13 +444,6 @@
 
         .stat-item:hover {
             transform: translateY(-10px);
-        }
-
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--primary-red);
-            margin-bottom: 0.5rem;
         }
 
         .stat-label {
@@ -1071,21 +1079,25 @@
         // Check on scroll
         window.addEventListener('scroll', animateOnScroll);
 
-        // Counter animation for stats
-        function animateCounter(element, target, duration) {
-            let start = 0;
-            const increment = target / (duration / 16);
-            const timer = setInterval(() => {
-                start += increment;
-                if (start >= target) {
-                    element.textContent = target + '+';
-                    clearInterval(timer);
-                } else {
-                    element.textContent = Math.floor(start) + '+';
-                }
-            }, 16);
+      // Counter animation for stats - fixed layout version
+function animateCounter(element, target, duration) {
+    let start = 0;
+    const increment = target / (duration / 16);
+    
+    // Set initial width to prevent layout shift
+    element.style.minWidth = element.offsetWidth + 'px';
+    
+    const timer = setInterval(() => {
+        start += increment;
+        if (start >= target) {
+            element.textContent = target + '+';
+            element.style.minWidth = ''; // Remove fixed width after animation
+            clearInterval(timer);
+        } else {
+            element.textContent = Math.floor(start) + '+';
         }
-
+    }, 16);
+}
         // Animate counters when stats become visible
         const statsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
