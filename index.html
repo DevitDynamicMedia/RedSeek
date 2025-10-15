@@ -235,7 +235,7 @@
         .service-card {
             background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             border-radius: 15px;
-            padding: 3rem;
+            padding: 2rem;
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(229, 9, 20, 0.2);
@@ -266,9 +266,17 @@
         .service-content {
             display: flex;
             align-items: center;
-            gap: 4rem;
+            gap: 2.5rem;
         }
+        /* For Photography (service 5) */
+.service-card:nth-child(5) .service-content {
+    align-items: down;
+}
 
+/* For Videography (service 6) */
+.service-card:nth-child(6) .service-content {
+   align-items: down;
+}
         .service-text {
             flex: 1;
         }
@@ -333,7 +341,7 @@
         }
 /* ADD THIS INSTEAD */
 .service-card {
-    min-height: 450px; /* Ensures all cards have minimum equal height */
+    min-height: 320px; /* Ensures all cards have minimum equal height */
     display: flex;
     flex-direction: column;
 }
@@ -356,8 +364,8 @@
 }
 
 .service-image {
-    height: 300px; /* Fixed height for all images */
-    min-height: 300px; /* Prevents shrinking */
+    height: 220px; /* Fixed height for all images */
+    min-height:220px; /* Prevents shrinking */
 }
 
 .service-image img {
