@@ -331,21 +331,33 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(229, 9, 20, 0.2);
         }
+/* ADD THIS INSTEAD */
+.service-card {
+    min-height: 450px; /* Ensures all cards have minimum equal height */
+    display: flex;
+    flex-direction: column;
+}
 
-       
-      /* FIX FOR EQUAL SERVICE SIZES */
 .service-content {
-    align-items: stretch !important;
+    flex: 1; /* Makes content area fill available space equally */
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+}
+
+.service-text, .service-image {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .service-text {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
+    justify-content: center; /* Vertically centers text content */
 }
 
 .service-image {
-    min-height: 300px !important;
+    height: 300px; /* Fixed height for all images */
+    min-height: 300px; /* Prevents shrinking */
 }
 
 .service-image img {
