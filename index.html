@@ -265,20 +265,32 @@
             flex-direction: row-reverse;
         }
 
-        .service-number {
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-red);
-        }
+       .service-number {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-red);
+    z-index: 2;
+}
 
-        .service-content {
-            display: flex;
-            align-items: center;
-            gap: 2.5rem;
-        }
+.service-content {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+/* Service number positions - alternating sides */
+.service-card:nth-child(odd) .service-number {
+    left: 1rem;
+    right: auto;
+}
+
+.service-card:nth-child(even) .service-number {
+    right: 1rem;
+    left: auto;
+}
       /* For Photography (service 5) */
 .service-card:nth-child(5) .service-image img {
     object-fit: cover;
