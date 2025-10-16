@@ -36,6 +36,17 @@
             line-height: 1.6;
         }
 
+        /* Particle Canvas Background */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--primary-black);
+        }
+
         /* Header & Navigation */
         header {
             position: fixed;
@@ -112,7 +123,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, rgba(229, 9, 20, 0.1), rgba(0, 0, 0, 0.9));
+            background: linear-gradient(45deg, rgba(229, 9, 20, 0.05), rgba(0, 0, 0, 0.8));
             z-index: -1;
         }
 
@@ -564,6 +575,9 @@
     </style>
 </head>
 <body>
+    <!-- Particle Canvas Background -->
+    <canvas id="particleCanvas"></canvas>
+
     <!-- Header & Navigation -->
     <header id="header">
         <a href="index.html" class="logo">Dynamic<span>Media</span></a>
@@ -751,6 +765,118 @@
     </footer>
 
     <script>
+        // Particle Background System
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Particle system
+        const particles = [];
+        const particleCount = 80;
+        const colors = [
+            'rgba(229, 9, 20, 0.8)',    // Primary red
+            'rgba(229, 9, 20, 0.6)',    // Lighter red
+            'rgba(255, 0, 0, 0.4)',     // Bright red
+            'rgba(139, 0, 0, 0.3)'      // Dark red
+        ];
+
+        // Create particles
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 - 1;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Bounce off walls
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                
+                // Fade in and out
+                this.opacity += Math.random() * 0.02 - 0.01;
+                this.opacity = Math.max(0.2, Math.min(0.8, this.opacity));
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color.replace('0.8', this.opacity);
+                ctx.fill();
+                
+                // Add glow effect for some particles
+                if (Math.random() > 0.7) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color.replace('0.8', this.opacity * 0.3);
+                    ctx.fill();
+                }
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        // Connection lines between particles
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(229, 9, 20, ${0.2 * (1 - distance/150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animateParticles() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            drawConnections();
+            
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Handle resize
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Start particle animation
+        animateParticles();
+
         // Header scroll effect
         window.addEventListener('scroll', function() {
             const header = document.getElementById('header');
