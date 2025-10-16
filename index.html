@@ -186,120 +186,176 @@
             }
         }
 
-       /* Services Section - Grid Layout */
-.services-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-}
+        /* Services Section - Grid Layout */
+        .services-section {
+            padding: 100px 5%;
+            background-color: var(--primary-black);
+        }
 
-.service-card {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    border-radius: 15px;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(229, 9, 20, 0.2);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.6s ease;
-    min-height: 500px;
-    display: flex;
-    flex-direction: column;
-}
+        .section-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4rem;
+            color: var(--primary-white);
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
 
-.service-card.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+        .section-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-/* Remove the alternating layout since we're using grid */
-.service-card:nth-child(even) .service-content {
-    flex-direction: column;
-}
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-red);
+        }
 
-.service-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
+        .services-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
 
-.service-number {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary-red);
-    z-index: 2;
-}
+        .service-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(229, 9, 20, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
 
-.service-text {
-    flex: 1;
-}
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-.service-title {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: var(--primary-white);
-    position: relative;
-}
+        /* Center the 7th service card */
+        .service-card:nth-child(7) {
+            grid-column: 1 / -1;
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-.service-title::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 0;
-    width: 60px;
-    height: 3px;
-    background-color: var(--primary-red);
-}
+        .service-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
 
-.service-description {
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-    color: var(--gray-light);
-    line-height: 1.6;
-}
+        .service-number {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            z-index: 2;
+        }
 
-.service-image {
-    height: 200px;
-    background: var(--gray-dark);
-    border: 2px solid var(--primary-red);
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(229, 9, 20, 0.2);
-}
+        .service-text {
+            flex: 1;
+        }
 
-.service-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+        .service-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-white);
+            position: relative;
+        }
 
-/* Responsive: Stack on mobile */
-@media (max-width: 768px) {
-    .services-container {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-    
-    .service-card {
-        min-height: 450px;
-    }
-    
-    .service-image {
-        height: 180px;
-    }
-}
-/* About Section */
+        .service-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-red);
+        }
+
+        .service-description {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--gray-light);
+            line-height: 1.6;
+        }
+
+        .panel-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-red);
+            color: var(--primary-white);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .panel-btn:hover {
+            background-color: var(--secondary-red);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
+        }
+
+        .service-image {
+            height: 200px;
+            background: var(--gray-dark);
+            border: 2px solid var(--primary-red);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(229, 9, 20, 0.2);
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Responsive: Stack on mobile */
+        @media (max-width: 768px) {
+            .services-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
             
+            .service-card {
+                min-height: 450px;
+            }
+            
+            .service-image {
+                height: 180px;
+            }
+            
+            /* Reset the 7th service card for mobile */
+            .service-card:nth-child(7) {
+                grid-column: auto;
+                max-width: none;
+            }
+        }
 
         /* About Section */
         .about-section {
@@ -335,32 +391,32 @@
             margin-top: 3rem;
         }
 
-     .stat-item {
-    text-align: center;
-    padding: 2rem;
-    background-color: var(--gray-dark);
-    border-radius: 10px;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease;
-    min-height: 120px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-width: 200px; /* Add fixed minimum width */
-}
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--gray-dark);
+            border-radius: 10px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 200px; /* Add fixed minimum width */
+        }
 
-.stat-number {
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--primary-red);
-    margin-bottom: 0.5rem;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 120px; /* Add fixed width for numbers */
-}
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin-bottom: 0.5rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px; /* Add fixed width for numbers */
+        }
 
         .stat-item.visible {
             opacity: 1;
@@ -387,21 +443,21 @@
             transform: translateY(0);
         }
        
-         .about-image .service-image {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
+        .about-image .service-image {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
 
-.about-image .service-image img {
-    max-width: 80%;
-    max-height: 80%;
-    object-fit: contain;
-    border-radius: 0 !important;
-}
+        .about-image .service-image img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            border-radius: 0 !important;
+        }
 
         /* Contact Section */
         .contact-section {
@@ -657,77 +713,77 @@
             }
         }
 
-       @media (max-width: 768px) {
-    .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 280px;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.98);
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        padding-top: 80px;
-        gap: 0;
-        transition: right 0.3s ease;
-        backdrop-filter: blur(10px);
-    }
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 80px;
+                gap: 0;
+                transition: right 0.3s ease;
+                backdrop-filter: blur(10px);
+            }
 
-    .nav-links.active {
-        right: 0;
-        display: flex;
-    }
+            .nav-links.active {
+                right: 0;
+                display: flex;
+            }
 
-    .nav-links a {
-        font-size: 1.1rem;
-        padding: 20px 30px;
-        min-height: 60px;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
+            .nav-links a {
+                font-size: 1.1rem;
+                padding: 20px 30px;
+                min-height: 60px;
+                display: flex;
+                align-items: center;
+                width: 100%;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
 
-    .nav-links a:hover {
-        background: rgba(229, 9, 20, 0.1);
-    }
+            .nav-links a:hover {
+                background: rgba(229, 9, 20, 0.1);
+            }
 
-    .mobile-menu-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 44px;
-        min-height: 44px;
-        z-index: 1001;
-        position: relative;
-    }
-    
-    /* Keep all your existing mobile styles below */
-    .hero h1 {
-        font-size: 2.5rem;
-    }
-    
-    .hero p {
-        font-size: 1.2rem;
-    }
-    
-    .service-title {
-        font-size: 2rem;
-    }
-    
-    .stats {
-        grid-template-columns: 1fr;
-    }
-    
-    .section-title {
-        font-size: 2rem;
-    }
-    
-    .service-card {
-        padding: 2rem;
-    }
-}
+            .mobile-menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 44px;
+                min-height: 44px;
+                z-index: 1001;
+                position: relative;
+            }
+            
+            /* Keep all your existing mobile styles below */
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .service-title {
+                font-size: 2rem;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .service-card {
+                padding: 2rem;
+            }
+        }
 
         @media (max-width: 480px) {
             .hero h1 {
@@ -745,7 +801,6 @@
             .service-content {
                 gap: 1.5rem;
             }
-        
         }
     </style>
 </head>
@@ -791,10 +846,10 @@
                         <a href="process.html" class="panel-btn">Learn More</a>
                     </div>
                     <div class="service-image">
-    <img src="websiteservice.png" alt="Web Development Services" style="width: 100%; height: 100%; object-fit: cover;">
-</div> <!-- ADD THIS -->
-</div> <!-- ADD THIS -->
-</div>
+                        <img src="websiteservice.png" alt="Web Development Services" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
 
             <!-- Service 2: Social Media Management -->
             <div class="service-card">
@@ -805,11 +860,12 @@
                         <p class="service-description">We develop and implement comprehensive social media strategies that build brand awareness, engage your audience, and drive meaningful results for your business.</p>
                         <a href="process.html" class="panel-btn">Learn More</a>
                     </div>
-                   <div class="service-image">
-    <img src="socialmediamanagement.png" alt="Social Media Management" style="width: 100%; height: 100%; object-fit: cover;">
-         </div> <!-- ADD THIS -->
-</div> <!-- ADD THIS -->
-</div>
+                    <div class="service-image">
+                        <img src="socialmediamanagement.png" alt="Social Media Management" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+
             <!-- Service 3: Social Media Advertising -->
             <div class="service-card">
                 <div class="service-number">03</div>
@@ -817,14 +873,14 @@
                     <div class="service-text">
                         <h3 class="service-title">Social Media Advertising</h3>
                         <p class="service-description">Our targeted advertising campaigns on platforms like Facebook, Instagram, and LinkedIn deliver measurable ROI and help you reach your ideal customers.</p>
-                        <!-- Replace this in your services section -->
-<a href="process.html" class="panel-btn">Learn More</a>
+                        <a href="process.html" class="panel-btn">Learn More</a>
                     </div>
-                   <div class="service-image">
-    <img src="socialmediamarketing.png" alt="Social Media Advertising" style="width: 100%; height: 100%; object-fit: cover;">
-    </div> <!-- ADD THIS -->
-</div> <!-- ADD THIS -->
-</div>
+                    <div class="service-image">
+                        <img src="socialmediamarketing.png" alt="Social Media Advertising" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+
             <!-- Service 4: Google Ads -->
             <div class="service-card">
                 <div class="service-number">04</div>
@@ -835,24 +891,26 @@
                         <a href="process.html" class="panel-btn">Learn More</a>
                     </div>
                     <div class="service-image">
-    <img src="googleads7.png" alt="Google Ads" style="width: 100%; height: 100%; object-fit: cover;">
-  </div> <!-- ADD THIS -->
-</div> <!-- ADD THIS -->
- </div>
-                <!-- Service 5: Photography -->
+                        <img src="googleads7.png" alt="Google Ads" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 5: Photography -->
             <div class="service-card">
                 <div class="service-number">05</div>
                 <div class="service-content">
                     <div class="service-text">
                         <h3 class="service-title">Photography</h3>
                         <p class="service-description">Our professional photography services capture your brand's essence, creating compelling visual content that tells your story and engages your audience.</p>
-                       <a href="process.html" class="panel-btn">Learn More</a>
+                        <a href="process.html" class="panel-btn">Learn More</a>
                     </div>
-                   <div class="service-image">
-    <img src="photography.png" alt="Photography" style="width: 100%; height: 100%; object-fit: cover;">                 
-</div> <!-- ADD THIS -->
-</div> <!-- ADD THIS -->
- </div>
+                    <div class="service-image">
+                        <img src="photography.png" alt="Photography" style="width: 100%; height: 100%; object-fit: cover;">                 
+                    </div>
+                </div>
+            </div>
+
             <!-- Service 6: Videography -->
             <div class="service-card">
                 <div class="service-number">06</div>
@@ -860,13 +918,13 @@
                     <div class="service-text">
                         <h3 class="service-title">Videography</h3>
                         <p class="service-description">From concept to final edit, we produce high-quality video content that captivates viewers, communicates your message, and drives engagement.</p>
-                       <a href="process.html" class="panel-btn">Learn More</a>
+                        <a href="process.html" class="panel-btn">Learn More</a>
                     </div>
                     <div class="service-image">  
-   <img src="videography.png" alt="Photography" style="width: 100%; height: 100%; object-fit: cover;">                 
- </div> <!-- ADD THIS -->
-</div> <!-- ADD THIS -->
-</div>
+                        <img src="videography.png" alt="Photography" style="width: 100%; height: 100%; object-fit: cover;">                 
+                    </div>
+                </div>
+            </div>
                 
             <!-- Service 7: Branding -->
             <div class="service-card">
@@ -875,11 +933,12 @@
                     <div class="service-text">
                         <h3 class="service-title">Branding</h3>
                         <p class="service-description">We develop cohesive brand identities that differentiate your business, build trust with your audience, and create lasting impressions.</p>
-                       <a href="process.html" class="panel-btn">Learn More</a>
-                      </div>   
+                        <a href="process.html" class="panel-btn">Learn More</a>
+                    </div>   
                     <div class="service-image">
-    <img src="logo.png" alt="Branding" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
+                        <img src="logo.png" alt="Branding" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -908,10 +967,11 @@
                 </div>
             </div>
             <div class="about-image">
-    <div class="service-image" style="height: 500px;">
-        <img src="logo.png" alt="Dynamic Media Logo">
-    </div>
-</div>
+                <div class="service-image" style="height: 500px;">
+                    <img src="logo.png" alt="Dynamic Media Logo">
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Contact Section -->
@@ -947,28 +1007,28 @@
                     </div>
                 </div>
                 <div class="social-links">
-    <a href="https://www.facebook.com/p/Dynamicmediaal-61567346060161/" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://www.instagram.com/dynamicmedia_al/" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
-    <a href="https://al.linkedin.com/in/rezi-hatia-53736426b" class="social-link" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-</div>
+                    <a href="https://www.facebook.com/p/Dynamicmediaal-61567346060161/" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/dynamicmedia_al/" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://al.linkedin.com/in/rezi-hatia-53736426b" class="social-link" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                </div>
             </div>
-           <div class="contact-form">
-    <form action="https://formspree.io/f/myznlogv" method="POST">
-        <div class="form-group">
-            <label for="name">Your Name</label>
-            <input type="text" id="name" name="name" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Your Email</label>
-            <input type="email" id="email" name="email" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="message">Your Message</label>
-            <textarea id="message" name="message" class="form-control" required></textarea>
-        </div>
-        <button type="submit" class="submit-btn">Send Message</button>
-    </form>
-</div>
+            <div class="contact-form">
+                <form action="https://formspree.io/f/myznlogv" method="POST">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
         </div>
     </section>
 
@@ -1173,25 +1233,26 @@
         // Check on scroll
         window.addEventListener('scroll', animateOnScroll);
 
-     // Counter animation for stats - fixed layout version
-function animateCounter(element, target, duration) {
-    let start = 0;
-    const increment = target / (duration / 16);
-    
-    // Set fixed width BEFORE animation starts
-    element.style.minWidth = '120px';
-    element.style.textAlign = 'center';
-    
-    const timer = setInterval(() => {
-        start += increment;
-        if (start >= target) {
-            element.textContent = target + '+';
-            clearInterval(timer);
-        } else {
-            element.textContent = Math.floor(start) + '+';
+        // Counter animation for stats - fixed layout version
+        function animateCounter(element, target, duration) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            
+            // Set fixed width BEFORE animation starts
+            element.style.minWidth = '120px';
+            element.style.textAlign = 'center';
+            
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = target + '+';
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start) + '+';
+                }
+            }, 16);
         }
-    }, 16);
-}
+
         // Animate counters when stats become visible
         const statsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1206,51 +1267,51 @@ function animateCounter(element, target, duration) {
                     statsObserver.unobserve(entry.target);
                 }
             });
-      }, { threshold: 0.5 });
+        }, { threshold: 0.5 });
 
-statsObserver.observe(document.querySelector('.stats'));
+        statsObserver.observe(document.querySelector('.stats'));
 
-// Mobile menu toggle
-const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-const navLinks = document.querySelector('.nav-links');
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
 
-mobileMenuBtn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    navLinks.classList.toggle('active');
-    
-    // Change menu icon
-    const icon = this.querySelector('i');
-    if (navLinks.classList.contains('active')) {
-        icon.className = 'fas fa-times';
-    } else {
-        icon.className = 'fas fa-bars';
-    }
-});
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            navLinks.classList.toggle('active');
+            
+            // Change menu icon
+            const icon = this.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.className = 'fas fa-times';
+            } else {
+                icon.className = 'fas fa-bars';
+            }
+        });
 
-// Close menu when clicking on links
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
-    });
-});
+        // Close menu when clicking on links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+            });
+        });
 
-// Close menu when clicking outside
-document.addEventListener('click', (e) => {
-    if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-        navLinks.classList.remove('active');
-        mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
-    }
-});
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+            }
+        });
 
-// Back to top functionality
-document.querySelector('.back-to-top').addEventListener('click', function(e) {
-    e.preventDefault();
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-});
-</script>
+        // Back to top functionality
+        document.querySelector('.back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 </body>
 </html>
