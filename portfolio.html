@@ -338,11 +338,104 @@
             line-height: 1.5;
         }
 
-        .portfolio-item:hover {
+               .portfolio-item:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(229, 9, 20, 0.2);
             border-color: var(--primary-red);
         }
+
+        /* 3D Book Styles - ADD THIS SECTION */
+        .book-gallery-container {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            background: var(--gray-dark);
+            margin: 2rem 0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .book-gallery-instructions {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: var(--primary-white);
+            font: 1.25em var(--font-main);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .book-traps {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: flex;
+        }
+
+        .book-trap {
+            flex: 1;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .book-3d, .book-3d *, .book-3d :before, .book-3d :after {
+            box-sizing: border-box;
+            position: absolute;
+            transform-style: preserve-3d;
+        }
+
+        .book-3d {
+            z-index: 1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            perspective: 40em;
+            pointer-events: none;
+            width: 14em;
+            height: 21em;
+        }
+
+        .book-page {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-origin: 0 50%;
+            transition: transform 0.5s;
+        }
+
+        .book-page:before, .book-page:after {
+            width: inherit;
+            height: inherit;
+            border-radius: 0 0.5em 0.5em 0;
+            backface-visibility: hidden;
+            background-position: center;
+            background-size: cover;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .book-page:after {
+            border-radius: 0.5em 0 0 0.5em;
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, var(--gray-medium), var(--gray-dark));
+        }
+
+        /* Page z-index management */
+        .book-page:nth-child(1) { z-index: 7; }
+        .book-page:nth-child(2) { z-index: 6; }
+        .book-page:nth-child(3) { z-index: 5; }
+        .book-page:nth-child(4) { z-index: 4; }
+        .book-page:nth-child(5) { z-index: 3; }
+        .book-page:nth-child(6) { z-index: 2; }
+        .book-page:nth-child(7) { z-index: 1; }
 
         /* Footer */
         footer {
@@ -793,8 +886,87 @@
             canvas.height = window.innerHeight;
         });
 
-        // Start particle animation
+                // Start particle animation
         animateParticles();
+
+        // 3D Book Configuration for Restaurant Portfolio - ADD THIS SECTION
+        const restaurantBookConfig = {
+            images: [
+                // Use your actual image URLs
+                ['imazhi0.png', 'imazhi3.jpg'],
+                ['imazhi3.jpg', 'picapost.png'],
+                ['picapost.png', 'imazhi0.png'],
+                // Add more if you have more images
+            ],
+            colors: [
+                [0, 30],    [30, 60],   [60, 90],
+                [90, 120],  [120, 150], [150, 180],
+                [180, 210]
+            ]
+        };
+
+        // Initialize 3D Book
+        function initRestaurantBook() {
+            const bookContainer = document.getElementById('book3d');
+            if (!bookContainer) return; // Only run if book exists on page
+            
+            const traps = document.querySelectorAll('.book-trap');
+            const n = restaurantBookConfig.images.length;
+            const starta = 45;
+            const a = starta / n;
+
+            // Clear existing pages
+            bookContainer.innerHTML = '';
+
+            // Generate pages dynamically
+            restaurantBookConfig.images.forEach((imagePair, index) => {
+                const page = document.createElement('div');
+                page.className = 'book-page';
+                
+                const [hueFront, hueBack] = restaurantBookConfig.colors[index];
+                
+                // Add CSS for this specific page
+                const styleId = `book-page-${index}`;
+                if (!document.getElementById(styleId)) {
+                    const style = document.createElement('style');
+                    style.id = styleId;
+                    style.textContent = `
+                        .book-page:nth-child(${index + 1}):before {
+                            box-shadow: inset -0.125em 0 0.5em hsla(${hueFront}, 100%, 50%, 0.7);
+                            background-image: url('${imagePair[0]}');
+                            background-color: hsla(${hueFront}, 90%, 40%, 0.9);
+                        }
+                        .book-page:nth-child(${index + 1}):after {
+                            box-shadow: inset 0.125em 0 0.5em hsla(${hueBack}, 100%, 50%, 0.7);
+                            background-image: url('${imagePair[1]}');
+                            background-color: hsla(${hueBack}, 100%, 35%, 0.9);
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+                
+                bookContainer.appendChild(page);
+            });
+
+            const pages = document.querySelectorAll('.book-page');
+            
+            traps.forEach((trap, i) => {
+                trap.addEventListener('mouseenter', function() {
+                    pages.forEach((page, j) => {
+                        if (j < i) {
+                            const rotation = -180 + starta - (i - j) * a;
+                            page.style.transform = `rotateY(${rotation}deg)`;
+                        } else {
+                            const rotation = -(i - j) * a - starta;
+                            page.style.transform = `rotateY(${rotation}deg)`;
+                        }
+                    });
+                });
+            });
+        }
+
+        // Initialize 3D book
+        initRestaurantBook();
 
         // Header scroll effect
         window.addEventListener('scroll', function() {
