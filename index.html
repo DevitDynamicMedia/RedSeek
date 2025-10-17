@@ -36,15 +36,15 @@
             line-height: 1.6;
         }
 
-        /* Particle Canvas Background */
-        #particleCanvas {
+        /* Three.js Cloud Background */
+        #cloud-background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: var(--primary-black);
+            background: linear-gradient(180deg, #1e4877 0%, #4584b4 100%);
         }
 
         /* Header & Navigation */
@@ -189,7 +189,8 @@
         /* Services Section - Grid Layout */
         .services-section {
             padding: 100px 5%;
-            background-color: var(--primary-black);
+            background-color: rgba(0, 0, 0, 0.7);
+            position: relative;
         }
 
         .section-title {
@@ -229,7 +230,7 @@
         }
 
         .service-card {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(45, 45, 45, 0.9) 100%);
             border-radius: 15px;
             padding: 2rem;
             position: relative;
@@ -242,6 +243,7 @@
             min-height: 500px;
             display: flex;
             flex-direction: column;
+            backdrop-filter: blur(10px);
         }
 
         .service-card.visible {
@@ -360,6 +362,8 @@
         /* About Section */
         .about-section {
             padding: 100px 5%;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: relative;
         }
 
         .about-content {
@@ -394,7 +398,7 @@
         .stat-item {
             text-align: center;
             padding: 2rem;
-            background-color: var(--gray-dark);
+            background-color: rgba(26, 26, 26, 0.9);
             border-radius: 10px;
             opacity: 0;
             transform: translateY(30px);
@@ -403,7 +407,8 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-width: 200px; /* Add fixed minimum width */
+            min-width: 200px;
+            backdrop-filter: blur(10px);
         }
 
         .stat-number {
@@ -415,7 +420,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-width: 120px; /* Add fixed width for numbers */
+            min-width: 120px;
         }
 
         .stat-item.visible {
@@ -462,6 +467,8 @@
         /* Contact Section */
         .contact-section {
             padding: 100px 5%;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: relative;
         }
 
         .contact-content {
@@ -503,13 +510,14 @@
         .contact-icon {
             width: 50px;
             height: 50px;
-            background-color: var(--gray-dark);
+            background-color: rgba(26, 26, 26, 0.9);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--primary-red);
             font-size: 1.2rem;
+            backdrop-filter: blur(10px);
         }
 
         .contact-text h3 {
@@ -530,7 +538,7 @@
         .social-link {
             width: 40px;
             height: 40px;
-            background-color: var(--gray-dark);
+            background-color: rgba(26, 26, 26, 0.9);
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -541,6 +549,7 @@
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
         }
 
         .social-link.visible {
@@ -554,12 +563,13 @@
         }
 
         .contact-form {
-            background-color: var(--gray-dark);
+            background-color: rgba(26, 26, 26, 0.9);
             padding: 3rem;
             border-radius: 10px;
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s ease 0.2s;
+            backdrop-filter: blur(10px);
         }
 
         .contact-form.visible {
@@ -633,9 +643,11 @@
 
         /* Footer */
         footer {
-            background-color: var(--gray-dark);
+            background-color: rgba(26, 26, 26, 0.9);
             padding: 3rem 5%;
             text-align: center;
+            position: relative;
+            backdrop-filter: blur(10px);
         }
 
         .footer-content {
@@ -805,8 +817,19 @@
     </style>
 </head>
 <body>
-    <!-- Particle Canvas Background -->
-    <canvas id="particleCanvas"></canvas>
+    <!-- Three.js Cloud Background -->
+    <div id="cloud-background"></div>
+
+    <!-- Three.js Scripts -->
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.167.0/build/three.module.js",
+                "addons/": "https://cdn.jsdelivr.net/npm/three@0.167.0/examples/jsm/"
+            }
+        }
+    </script>
 
     <!-- Header & Navigation -->
     <header id="header">
@@ -1045,119 +1068,156 @@
         </div>
     </footer>
 
-    <script>
-        // Particle Background System
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
+    <!-- Three.js Cloud Animation -->
+    <script type="module">
+        import * as THREE from "three";
+        import * as BufferGeometryUtils from "addons/utils/BufferGeometryUtils.js";
 
-        // Set canvas size
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        // Particle system
-        const particles = [];
-        const particleCount = 80;
-        const colors = [
-            'rgba(229, 9, 20, 0.8)',    // Primary red
-            'rgba(229, 9, 20, 0.6)',    // Lighter red
-            'rgba(255, 0, 0, 0.4)',     // Bright red
-            'rgba(139, 0, 0, 0.3)'      // Dark red
-        ];
-
-        // Create particles
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-            
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = Math.random() * 2 - 1;
-                this.speedY = Math.random() * 2 - 1;
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-                this.opacity = Math.random() * 0.5 + 0.2;
-            }
-            
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                
-                // Bounce off walls
-                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-                
-                // Fade in and out
-                this.opacity += Math.random() * 0.02 - 0.01;
-                this.opacity = Math.max(0.2, Math.min(0.8, this.opacity));
-            }
-            
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = this.color.replace('0.8', this.opacity);
-                ctx.fill();
-                
-                // Add glow effect for some particles
-                if (Math.random() > 0.7) {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
-                    ctx.fillStyle = this.color.replace('0.8', this.opacity * 0.3);
-                    ctx.fill();
+        const cloudShader = {
+            vertexShader: `
+                varying vec2 vUv;
+                void main() {
+                    vUv = uv;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
                 }
-            }
-        }
+            `,
+            fragmentShader: `
+                uniform sampler2D map;
+                uniform vec3 fogColor;
+                uniform float fogNear;
+                uniform float fogFar;
+                varying vec2 vUv;
 
-        // Initialize particles
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
-
-        // Connection lines between particles
-        function drawConnections() {
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 150) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(229, 9, 20, ${0.2 * (1 - distance/150)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
+                void main() {
+                    float depth = gl_FragCoord.z / gl_FragCoord.w;
+                    float fogFactor = smoothstep( fogNear, fogFar, depth );
+                    gl_FragColor = texture2D( map, vUv );
+                    gl_FragColor.w *= pow( gl_FragCoord.z, 20.0 );
+                    gl_FragColor = mix( gl_FragColor, vec4( fogColor , gl_FragColor.w ), fogFactor );
                 }
-            }
-        }
+            `
+        };
 
-        // Animation loop
-        function animateParticles() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            particles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
-            
-            drawConnections();
-            
-            requestAnimationFrame(animateParticles);
-        }
-
-        // Handle resize
-        window.addEventListener('resize', function() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        const container = document.getElementById("cloud-background");
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(
+            30,
+            window.innerWidth / window.innerHeight,
+            1,
+            3000
+        );
+        const renderer = new THREE.WebGLRenderer({
+            antialias: false,
+            alpha: true
         });
 
-        // Start particle animation
-        animateParticles();
+        let mouseX = 0, mouseY = 0;
+        let start_time = Date.now();
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
 
+        const tLoader = new THREE.TextureLoader();
+
+        tLoader.load(
+            "https://mrdoob.com/lab/javascript/webgl/clouds/cloud10.png",
+            (t) => {
+                t.colorSpace = THREE.SRGBColorSpace;
+                init(t);
+            }
+        );
+
+        function init(t) {
+            camera.position.z = 6000;
+
+            const texture = t;
+            texture.magFilter = THREE.LinearMipMapLinearFilter;
+            texture.minFilter = THREE.LinearMipMapLinearFilter;
+
+            const fog = new THREE.Fog(0x4584b4, -100, 3000);
+            scene.fog = fog;
+
+            const material = new THREE.ShaderMaterial({
+                uniforms: {
+                    map: { value: texture },
+                    fogColor: { value: fog.color },
+                    fogNear: { value: fog.near },
+                    fogFar: { value: fog.far }
+                },
+                vertexShader: cloudShader.vertexShader,
+                fragmentShader: cloudShader.fragmentShader,
+                depthWrite: false,
+                depthTest: false,
+                transparent: true
+            });
+
+            const planeGeo = new THREE.PlaneGeometry(64, 64);
+            const planeObj = new THREE.Object3D();
+            const geometries = [];
+
+            for (let i = 0; i < 8000; i++) {
+                planeObj.position.x = Math.random() * 1000 - 500;
+                planeObj.position.y = -Math.random() * Math.random() * 200 - 15;
+                planeObj.position.z = i;
+                planeObj.rotation.z = Math.random() * Math.PI;
+                planeObj.scale.x = planeObj.scale.y = Math.random() * Math.random() * 1.5 + 0.5;
+                planeObj.updateMatrix();
+
+                const clonedPlaneGeo = planeGeo.clone();
+                clonedPlaneGeo.applyMatrix4(planeObj.matrix);
+                geometries.push(clonedPlaneGeo);
+            }
+
+            const planeGeos = BufferGeometryUtils.mergeGeometries(geometries);
+            const planesMesh = new THREE.Mesh(planeGeos, material);
+            planesMesh.renderOrder = 2;
+
+            const planesMeshA = planesMesh.clone();
+            planesMeshA.position.z = -8000;
+            planesMeshA.renderOrder = 1;
+
+            scene.add(planesMesh);
+            scene.add(planesMeshA);
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.domElement.style.position = 'absolute';
+            renderer.domElement.style.top = '0';
+            renderer.domElement.style.left = '0';
+            container.appendChild(renderer.domElement);
+
+            document.addEventListener("mousemove", onDocumentMouseMove, false);
+            window.addEventListener("resize", onWindowResize, false);
+
+            animate();
+        }
+
+        function onDocumentMouseMove(event) {
+            mouseX = (event.clientX - windowHalfX) * 0.25;
+            mouseY = (event.clientY - windowHalfY) * 0.15;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const position = ((Date.now() - start_time) * 0.03) % 8000;
+
+            camera.position.x += (mouseX - camera.position.x) * 0.01;
+            camera.position.y += (-mouseY - camera.position.y) * 0.01;
+            camera.position.z = -position + 8000;
+
+            renderer.render(scene, camera);
+        }
+    </script>
+
+    <!-- Your Existing JavaScript -->
+    <script>
         // Header scroll effect
         window.addEventListener('scroll', function() {
             const header = document.getElementById('header');
