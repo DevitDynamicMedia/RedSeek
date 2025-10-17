@@ -945,12 +945,7 @@
         mobileMenuBtn.addEventListener('click', function() {
             navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
         });
-
-        // CTA button click
-        document.querySelector('.cta-button').addEventListener('click', function() {
-            alert('Thank you for your interest! We will contact you soon to schedule your consultation.');
-        });
-
+        
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
